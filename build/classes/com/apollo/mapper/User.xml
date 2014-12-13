@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <!DOCTYPE mapper  
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+          "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<!--  命名空间
+<mapper namespace="com.apollo.mybatis.models.UserMapper">
+	<select id="selectUserByID" parameterType="int" resultType="User">
+		select * from `user` where id = #{id}
+    </select>
+</mapper>
+-->
+
+<!-- 接口方式编程 -->
+<mapper namespace="com.apollo.mybatis.inter.IUserOperator">
+	<select id="selectUserByID" parameterType="int" resultType="User">
+		select * from `user` where id=#{id}
+    </select>
+    
+    <resultMap id="resultListUser" type="User">
+    	  <id column="id" property="id" />
+        <result column="userName" property="userName" />
+        <result column="userAge" property="userAge" />
+        <result column="userAddress" property="userAddress" />
+    </resultMap>
+    
+    <select id="selectUsers" parameterType = "String" resultMap="resultListUser">
+    	select * from user where userName like #{userName}
+    </select>
+    
+    <insert id="saveUser" useGeneratedKeys="true" keyProperty="id" parameterType="User">
+    	insert into user(userName,userAddress,userAge) values(#{userName},#{userAddress},#{userAge})
+    </insert>
+    
+    <update id="updateUser" parameterType="User">
+    	update user set userName=#{userName},userAddress=#{userAddress},userAge=#{userAge},id=#{id}
+    </update>
+    
+    <delete id="deleteUser" parameterType="int">
+    	delete from user where id=#{id}
+    </delete>
+    
+    <!-- 联合查询 -->
+     <resultMap id="resultUserArticleList" type="Article">
+        <id property="id" column="aid" />
+        <result property="title" column="title" />
+        <result property="content" column="content" />
+        <association property="user" javaType="User" resultMap="resultListUser"/>
+    </resultMap>
+
+ 
+ 	<select id="getUserArticles" parameterType="int" resultMap="resultUserArticleList">
+       select user.id,user.userName,user.userAddress,article.id aid,article.title,article.content from user,article 
+              where user.id=article.userid and user.id=#{id}
+    </select>
+    
+</mapper>
+
+
+
+
+

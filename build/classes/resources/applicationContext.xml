@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans>
+
+	<context:property-placeholder location="config/jdbc.properties" />
+
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driver" value="${driverClassName}" />
+		<property name="url" value="${url}" />
+		<property name="username" value="${username}" />
+		<property name="password" value="${password}" />
+	</bean>
+	
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+      <property name="dataSource" ref="dataSource" />
+    </bean>
+
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<!--dataSource属性指定要用到的连接池 -->
+		<property name="dataSource" ref="dataSource" />
+		<!--configLocation属性指定mybatis的核心配置文件 -->
+		<property name="configLocation" value="config/Configuration.xml" />
+	</bean>
+
+	<bean id="userMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<!--sqlSessionFactory属性指定要用到的SqlSessionFactory实例 -->
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+		<!--mapperInterface属性指定映射器接口，用于实现此接口并生成映射器对象 -->
+		<property name="mapperInterface" value="com.apollo.mybatis.inter.IUserOperator" />
+		 <!-- 所有配置的mapper文件 -->
+		<property name="mapperLocations" value="classpath*:com/apollo/mapper/*.xml" />
+	</bean>
+	
+	
+
+</beans> 

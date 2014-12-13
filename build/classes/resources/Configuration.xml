@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<properties resource="jdbc.properties"/>
+	
+	<typeAliases>
+		<typeAlias alias="User" type="com.apollo.mybatis.model.User" />
+		<typeAlias alias="Article" type="com.apollo.mybatis.model.Article" />
+	</typeAliases>
+	
+	 <!-- 
+	<environments default="development">
+		<environment id="development">
+			<transactionManager type="JDBC" />
+			<dataSource type="POOLED">
+				<property name="driver" value="${driverClassName}" />
+				<property name="url" value="${url}" />
+				<property name="username" value="${username}" />
+				<property name="password" value="${password}" />
+			</dataSource>
+		</environment>
+	</environments>
+	 -->
+	
+
+	
+	 <!--将 自定义Mapper文件加入到配置文件中  -->  
+	<mappers>
+		<mapper resource="com/apollo/mybatis/model/User.xml" />
+	</mappers>
+</configuration>
